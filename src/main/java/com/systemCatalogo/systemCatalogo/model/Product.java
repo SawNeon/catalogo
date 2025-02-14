@@ -13,6 +13,7 @@ public class Product {
 	private long id;
 	private String name;
 	private String description;
+	private String imgUrl;
 
 	public Product() {
 	}
@@ -40,4 +41,12 @@ public class Product {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
 }
