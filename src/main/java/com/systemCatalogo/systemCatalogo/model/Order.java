@@ -2,24 +2,27 @@ package com.systemCatalogo.systemCatalogo.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "orders")
 public class Order {
 
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String unidadeEscolar;
 
-    @OneToMany
-    @JoinColumn(name = "order_id")
+    @OneToMany(mappedBy = "order")
+    @JsonManagedReference
     private List<OrderItem> orderItems;
 
     private Double total;
@@ -32,7 +35,7 @@ public class Order {
         this.total = total;
     }
 
-    // Getters and Setters
+
     public Long getId() {
         return id;
     }
