@@ -8,6 +8,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -72,7 +73,8 @@ public class ProductController {
     @PostMapping
     public ResponseEntity<Product> save(@RequestParam("name") String name,
                                         @RequestParam("description") String description,
-                                        @RequestParam("img") MultipartFile img) {
+                                        @RequestParam("img") MultipartFile img,
+                                        @RequestParam("productStock") Integer productStock) {
         try {
             String imgUrl = saveImg(img);
 
@@ -80,11 +82,31 @@ public class ProductController {
             product.setName(name);
             product.setDescription(description);
             product.setImgUrl(imgUrl);
+            product.setProductStock(productStock);
 
             Product savedProduct = productService.save(product);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(savedProduct);
 
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    
+    @PutMapping("/{id}")
+    public ResponseEntity<Product> update(@PathVariable Long id,
+                                          @RequestParam("name") String name,
+                                          @RequestParam("description") String description,
+                                          @RequestParam(value = "img", required = false) MultipartFile img,
+                                          @RequestParam("productStock") Integer productStock) {
+        try {
+            Product updatedProduct = productService.update(id, name, description, img, productStock);
+            
+            if (updatedProduct != null) {
+                return ResponseEntity.ok(updatedProduct);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
