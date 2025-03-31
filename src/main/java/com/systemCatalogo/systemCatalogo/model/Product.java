@@ -14,6 +14,7 @@ public class Product {
 	private String name;
 	private String description;
 	private String imgUrl;
+	private Integer productStock;
 
 	public Product() {
 	}
@@ -48,5 +49,13 @@ public class Product {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+    
+    public Integer getProductStock() {
+        return productStock;
+    }
+
+    public void setProductStock(Integer productStock) {
+        this.productStock = productStock;
     }
 }
