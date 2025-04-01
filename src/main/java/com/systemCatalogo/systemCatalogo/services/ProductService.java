@@ -68,6 +68,6 @@ public class ProductService {
 
         Files.copy(img.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 
-        return path.toString().replace("\\", "/");  // Retorna o caminho da imagem salva
+        return path.toString().replace("\\", "/");
     }
 }

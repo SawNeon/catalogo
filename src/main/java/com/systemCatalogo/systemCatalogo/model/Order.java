@@ -5,6 +5,8 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,6 +28,9 @@ public class Order {
     private List<OrderItem> orderItems;
 
     private Double total;
+    
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
 
     public Order() {}
 
@@ -66,5 +71,13 @@ public class Order {
 
     public void setTotal(Double total) {
         this.total = total;
+    }
+    
+    public OrderStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(OrderStatus status) {
+        this.status = status;
     }
 }

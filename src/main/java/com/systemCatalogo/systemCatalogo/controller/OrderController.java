@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,9 +34,18 @@ public class OrderController {
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(savedOrder);
 	}
-	 @GetMapping
-	    public ResponseEntity<List<Order>> getAllOrders() {
+	@GetMapping
+	public ResponseEntity<List<Order>> getAllOrders() {
 	        List<Order> orders = orderService.findAll();
 	        return ResponseEntity.ok(orders);
-	    }
 	}
+	@PostMapping("/approve/{id}") 
+	public ResponseEntity<Order> approveOrder(@PathVariable Long id) {
+		try {
+			Order approvedOrder = orderService.approveOrder(id);
+			return ResponseEntity.ok(approvedOrder);
+		} catch (RuntimeException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
+	}
+}
